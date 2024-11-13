@@ -1,0 +1,70 @@
+services:
+  mysql:
+    image: mysql:${MYSQL_TAG}
+    container_name: "${PROJECT_NAME}_db"
+    stop_grace_period: 30s
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+    ports:
+        - "${DB_CONTAINER_EXPOSED_PORT:-33061}:3306"
+    volumes:
+        - db_data:/var/lib/mysql
+        - .devops/local/db_dumps:/var/tmp/dumps
+
+  php:
+    image: wodby/php:${PHP_TAG}
+    container_name: "${PROJECT_NAME}_php"
+    environment:
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      DB_HOST: $DB_HOST
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
+      PHP_FPM_USER: wodby
+      PHP_FPM_GROUP: wodby
+      PHP_XDEBUG: 1
+      PHP_XDEBUG_MODE: debug
+      PHP_IDE_CONFIG: serverName=${PROJECT_BASE_URL}
+      PHP_XDEBUG_CLIENT_HOST: host.docker.internal
+    volumes:
+    - ./:/var/www/html:delegated
+
+  nginx:
+    image: wodby/nginx:${NGINX_TAG}
+    container_name: "${PROJECT_NAME}_nginx"
+    depends_on:
+    - php
+    environment:
+      NGINX_STATIC_OPEN_FILE_CACHE: "off"
+      NGINX_ERROR_LOG_LEVEL: debug
+      NGINX_BACKEND_HOST: php
+      NGINX_VHOST_PRESET: php
+      NGINX_SERVER_ROOT: /var/www/html/public
+    volumes:
+    - ./:/var/www/html:delegated
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
+    # Enable HTTPS
+    - "traefik.http.routers.${PROJECT_NAME}_nginx.entrypoints=websecure"
+    - "traefik.http.routers.${PROJECT_NAME}_nginx.tls=true"
+    - "traefik.http.routers.${PROJECT_NAME}_nginx.tls.domains[0].main=${PROJECT_BASE_URL}"
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: "${PROJECT_NAME}_mailhog"
+    ports:
+        - "${MAILHOG_PORT}:8025"
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.${PROJECT_NAME}_mailhog.entrypoints=websecure"
+    - "traefik.http.routers.${PROJECT_NAME}_mailhog.rule=Host(`mailhog.${PROJECT_BASE_URL}`)"
+    - "traefik.http.routers.${PROJECT_NAME}_mailhog.tls=true"
+    - "traefik.http.routers.${PROJECT_NAME}_mailhog.tls.domains[0].main=mailhog.${PROJECT_BASE_URL}"
+    - "traefik.http.services.${PROJECT_NAME}_mailhog.loadbalancer.server.port=8025"
+
+volumes:
+    db_data: {}

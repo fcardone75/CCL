@@ -1,0 +1,39 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+{% block head_stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head_favicon %}
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+{% endblock %}
+
+{% block head_javascript %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+{% endblock head_javascript %}
+
+{% block page_title %}Cassa Commercio Liguria - {{ parent() }}{% endblock page_title %}
+
+{% block body %}
+    {{ parent() }}
+    <footer class="footer text-center text-white">
+        <div class="d-sm-flex justify-content-between grid-container pt-4">
+            <div class="d-sm-flex text-dark pb-4">
+                <span class="mt-auto mb-auto">
+                    ©{{ "now"|date("Y") }} Copyright: Cassa Commercio Liguria
+                    <small>
+                        <span class="hours-check">{{ "now"|date("Y-m-d H:i:s") }}</span>
+                    </small>
+                </span>
+            </div>
+            <div class="pb-4">
+{#                <img src="{{ asset('images/AR_BNPP_LOGO_IT_O_DIGI_RGB_compressed.jpg') }}" alt="artigiancassa - bnp paribas">#}
+                <img src="{{ asset('images/BANCA_AGEVOLARTI_LOGO_H_DIGI_RVB_compressed.jpg') }}" alt="banca agevolarti - bnp paribas">
+                <img src="{{ asset('images/UE_RGB_compressed.png') }}" alt="unione europea">
+                <img src="{{ asset('images/ITALY_RGB_compressed.png') }}" alt="repubblica italiana">
+                <img src="{{ asset('images/LIGURIA_RGB_compressed.png') }}" alt="regione liguria">
+                <img src="{{ asset('images/FESR_RGB_compressed.png') }}" alt="fesr">
+            </div>
+        </div>
+    </footer>
+{% endblock body %}
