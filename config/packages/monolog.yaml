@@ -9,19 +9,19 @@ monolog:
   handlers:
     application_import_template:
       type: group
-      members: [ cloudWatch, application_import_template_local ]
+      members: [ application_import_template_local ]
     application_import:
       type: group
-      members: [ cloudWatch, application_import_local ]
+      members: [ application_import_local ]
     application_export:
       type: group
-      members: [ cloudWatch, application_export_local ]
+      members: [ application_export_local ]
     application_communication_nsia:
       type: group
-      members: [ cloudWatch, application_communication_nsia_local ]
+      members: [ application_communication_nsia_local ]
     app_mailer:
       type: group
-      members: [ cloudWatch, app_mailer_local ]
+      members: [ app_mailer_local ]
     application_import_template_local:
       type: stream
       path: "%kernel.logs_dir%/application_import_template.log"
@@ -48,6 +48,6 @@ monolog:
       path: "%kernel.logs_dir%/mailer.log"
       level: debug
       channels: [ "app_mailer" ]
-    cloudWatch:
-      type: service
-      id: cloudwatch_handler
+    # cloudWatch:
+    #   type: service
+    #   id: cloudwatch_handler

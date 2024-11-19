@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-zip": "*",
         "aws/aws-sdk-php": "^3.0",
+        "bni/gpec": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.9.0|^3.0",
@@ -36,6 +37,7 @@
         "symfony/http-client": "6.4.*",
         "symfony/intl": "6.4.*",
         "symfony/mailer": "6.4.*",
+        "symfony/messenger": "6.4.*",
         "symfony/mime": "6.4.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "6.4.*",
@@ -69,8 +71,9 @@
     },
     "config": {
         "allow-plugins": {
-            "symfony/flex": true,
-            "endroid/installer": true
+            "endroid/installer": true,
+            "php-http/discovery": true,
+            "symfony/flex": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
@@ -88,6 +91,14 @@
             "App\\Tests\\": "tests/"
         }
     },
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://dev.azure.com/iad-ops/artigiancassa/_git/gpec_client"
+        }
+    ],
+
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",

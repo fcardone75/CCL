@@ -75,7 +75,7 @@ class Mailer implements MailerInterface
 
 
     public function __construct(
-        \Symfony\Component\Mailer\MailerInterface $mailer,
+        GpecMailer $mailer,
         Environment $twig,
         UrlGeneratorInterface $urlGenerator,
         AdminUrlGenerator $adminUrlGenerator,

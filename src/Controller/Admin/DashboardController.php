@@ -42,10 +42,10 @@ class DashboardController extends AbstractDashboardController
      * @param GoogleAuthenticatorInterface $mfaManager
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(GoogleAuthenticatorInterface $mfaManager, EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, ?GoogleAuthenticatorInterface $googleAuthenticator = null)
     {
-        $this->mfaManager = $mfaManager;
         $this->entityManager = $entityManager;
+        $this->mfaManager = $googleAuthenticator;
     }
 
     #[Route('/admin/2fa_verify', methods: [Request::METHOD_POST])]

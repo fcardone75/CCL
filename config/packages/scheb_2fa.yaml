@@ -1,8 +1,8 @@
 # See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
 scheb_two_factor:
     google:
-        enabled: true
-        server_name: '%env(MFA_SERVER_NAME)%'           # Server name used in QR code TODO: move to config [GDA]
+        enabled: '%env(MFA_ENABLED)%'
+        server_name: 'default_server_name'           # Server name used in QR code TODO: move to config [GDA]
         issuer: 'Cassa Commercio Liguria'               # Issuer name used in QR code
         digits: 6                                       # Number of digits in authentication code
         leeway: 5                                       # Acceptable time drift in seconds, must be less or equal than 30 seconds

@@ -4,6 +4,7 @@ namespace App\EventSubscriber\Doctrine;
 
 use App\Entity\User;
 use App\Service\Contracts\MailerInterface;
+use App\Service\Mailer;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -27,7 +28,7 @@ class UserSubscriber implements EventSubscriber
     /**
      * @var MailerInterface
      */
-    private MailerInterface $mailer;
+    private Mailer $mailer;
 
     /**
      * @var array

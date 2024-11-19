@@ -8,6 +8,7 @@ parameters:
   env(MAILER_RECIPIENT_TARGET): 'artigiancassa-services@synesthesia.it'
   env(APP_SECURITY_RESET_PASSWORD_MIN_INTERVAL): '172800'
   env(PASSWORD_LIFETIME): '2592000'
+  gpec.envpath: 5
 
 services:
   # default configuration for services in *this* file
@@ -280,3 +281,8 @@ services:
       - "%env(bool:AWS_CLOUD_WATCH_ENABLED)%"
   json_log_configurator:
     class: App\Utils\CloudWatchJsonConfigurator
+
+  Bni\Gpec\Gpec\GpecService:
+    arguments:
+      $upFolderEnvFile: '%gpec.envpath%'
+    public: true

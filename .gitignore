@@ -25,3 +25,4 @@
 docker-compose.override.yml
 mysql-init
 .env
+auth.json
