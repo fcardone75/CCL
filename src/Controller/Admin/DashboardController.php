@@ -51,25 +51,26 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin/2fa_verify', methods: [Request::METHOD_POST])]
     public function post2FAAction(Request $request)
     {
+
         $user = $this->getUser();
         $user->setGoogleAuthenticatorSecret($request->get('secret'));
         $code = $request->get('_auth_code');
-        if($this->mfaManager->checkCode($user, $code))
-        {
+        if ($this->mfaManager->checkCode($user, $code)) {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
             return $this->redirect($adminUrlGenerator->setController(ApplicationCrudController::class)->generateUrl());
         }
-        $secret = $this->mfaManager->generateSecret();
-        $user = $this->getUser();
-        $user->setGoogleAuthenticatorSecret($secret);
-        $qrCodeContent = $this->mfaManager->getQRContent($user);
-        return $this->render('admin/2fa-enable.html.twig', [
-            "qrCodeContent" => $qrCodeContent,
-            "secret" => $secret,
-            "error" => trans('code_invalid', 'SchebTwoFactorBundle')
-        ]);
+
+            $secret = $this->mfaManager->generateSecret();
+            $user = $this->getUser();
+            $user->setGoogleAuthenticatorSecret($secret);
+            $qrCodeContent = $this->mfaManager->getQRContent($user);
+            return $this->render('admin/2fa-enable.html.twig', [
+                "qrCodeContent" => $qrCodeContent,
+                "secret" => $secret,
+                "error" => trans('code_invalid', 'SchebTwoFactorBundle')
+            ]);
     }
 
     /**
@@ -77,21 +78,23 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(
         AdminUrlGenerator $adminUrlGenerator = null,
-        Request $request = null
+        Request           $request = null
     ): Response
     {
         $user = $this->getUser();
 
         //        if(!$this->getUser()->isGoogleAuthenticatorEnabled()) {
-        if(!$user->isGoogleAuthenticatorEnabled()) {
-            $secret = $this->mfaManager->generateSecret();
+        if (!$user->isGoogleAuthenticatorEnabled()) {
+            if ($this->mfaManager != null) {
+                $secret = $this->mfaManager->generateSecret();
 //            $user = $this->getUser();
-            $user->setGoogleAuthenticatorSecret($secret);
-            $qrCodeContent = $this->mfaManager->getQRContent($user);
-            return $this->render('admin/2fa-enable.html.twig', [
-                "qrCodeContent" => $qrCodeContent,
-                "secret" => $secret
-            ]);
+                $user->setGoogleAuthenticatorSecret($secret);
+                $qrCodeContent = $this->mfaManager->getQRContent($user);
+                return $this->render('admin/2fa-enable.html.twig', [
+                    "qrCodeContent" => $qrCodeContent,
+                    "secret" => $secret
+                ]);
+            }
         }
 
 //TODO: in base a ruolo è visibile o meno la dashboard (grafici)
@@ -118,7 +121,7 @@ class DashboardController extends AbstractDashboardController
         $isConfidiUser = $user instanceof User && $user->getConfidi();
 
         $criteria = [];
-        $orderBy =['businessName' => 'ASC'];
+        $orderBy = ['businessName' => 'ASC'];
 
         if ($isConfidiUser) {
             $confidiSelected = $user->getConfidi()->getId();
@@ -137,7 +140,7 @@ class DashboardController extends AbstractDashboardController
             $confidiData[] = $item;
         }
 
-        foreach($confidiList as $confidi) {
+        foreach ($confidiList as $confidi) {
             $item = [];
             $item['id'] = $confidi->getId();
             $item['selected'] = $confidi->getId() == $confidiSelected;
@@ -227,7 +230,7 @@ class DashboardController extends AbstractDashboardController
         // to display a message indicating the absence of data
         $presence_data = false;
 
-        foreach($chartConfig as $config_chart) {
+        foreach ($chartConfig as $config_chart) {
 
             $criteria = [];
             if (!empty($confidiSelected)) {
@@ -245,8 +248,8 @@ class DashboardController extends AbstractDashboardController
             $series = [];
             $total = 0;
 
-            foreach($counterConfig as $idx_cfg => $config_counter) {
-                $counter = array_filter($applicationList, function($applicationList) use ($config_counter) {
+            foreach ($counterConfig as $idx_cfg => $config_counter) {
+                $counter = array_filter($applicationList, function ($applicationList) use ($config_counter) {
 //                    return $applicationList->getStatus() == $config_counter['statuses'];
                     return in_array($applicationList->getStatus(), $config_counter['statuses']);
                 });
@@ -259,13 +262,13 @@ class DashboardController extends AbstractDashboardController
                 if ($tot_tmp > 0) {
                     $total += $tot_tmp;
                     $series[] = ['value' => $tot_tmp, 'className' => $this->setChartPieClassFromData($config_counter['code'])];
-                    $labels[] = $config_counter['label'] . ' ['.$tot_tmp.']';
+                    $labels[] = $config_counter['label'] . ' [' . $tot_tmp . ']';
                 }
             }
 
 
             $chart['type'] = $config_chart['chart_type'];
-            $chart['title'] = $config_chart['chart_title'] . ' ['.$total.']';
+            $chart['title'] = $config_chart['chart_title'] . ' [' . $total . ']';
             $chart['labels'] = json_encode($labels);
             $chart['series'] = json_encode($series);
 
@@ -285,8 +288,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('<img src="/images/logo.png"/>')
-            ->disableDarkMode()
-            ;
+            ->disableDarkMode();
     }
 
     public function configureMenuItems(): iterable
@@ -302,9 +304,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('crud.report_import.plural', 'fa fa-table', ReportImport::class)
             ->setPermission('ROLE_REPORT_INDEX');
         yield MenuItem::linkToCrud('crud.application_group.plural', 'fa fa-copy', ApplicationGroup::class)
-                ->setPermission('ROLE_APPLICATION_GROUP_INDEX');
+            ->setPermission('ROLE_APPLICATION_GROUP_INDEX');
         yield MenuItem::linkToCrud('crud.application.plural', 'fa fa-file', Application::class)
-                ->setPermission('ROLE_APPLICATION_INDEX');
+            ->setPermission('ROLE_APPLICATION_INDEX');
         yield MenuItem::subMenu('crud.settings', 'fas fa-cog')
             ->setPermission('ROLE_ACCESS_SETTING')
             ->setSubItems([
@@ -334,8 +336,7 @@ class DashboardController extends AbstractDashboardController
         return Assets::new()
             ->addCssFile('css/admin.css')
             ->addJsFile('chartist-js/chartist.min.js')
-            ->addCssFile('chartist-js/chartist.min.css')
-            ;
+            ->addCssFile('chartist-js/chartist.min.css');
     }
 
     private function setChartPieClassFromData($status_code)

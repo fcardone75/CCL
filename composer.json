@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "ext-zip": "*",
         "aws/aws-sdk-php": "^3.0",
-        "bni/gpec": "*",
+        "bni/gpec": "dev-main",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.9.0|^3.0",
@@ -56,7 +56,8 @@
         "symfony/yaml": "6.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^2.3"
+        "vich/uploader-bundle": "^2.3",
+        "wsdltophp/packagegenerator": "^4.1"
     },
 
     "require-dev": {

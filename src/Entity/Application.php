@@ -125,7 +125,7 @@ const STATUS_NSIA_00110 = '00110';
 
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue (strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
     private $id;

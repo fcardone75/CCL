@@ -20,7 +20,7 @@ class ApplicationImportTemplate
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue (strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
     private $id;
