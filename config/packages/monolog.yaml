@@ -9,45 +9,46 @@ monolog:
   handlers:
     application_import_template:
       type: group
-      members: [ application_import_template_local ]
+      members: [ application_import_template_console ]
     application_import:
       type: group
-      members: [ application_import_local ]
+      members: [ application_import_console ]
     application_export:
       type: group
-      members: [ application_export_local ]
+      members: [ application_export_console ]
     application_communication_nsia:
       type: group
-      members: [ application_communication_nsia_local ]
+      members: [ application_communication_nsia_console ]
     app_mailer:
       type: group
-      members: [ app_mailer_local ]
-    application_import_template_local:
+      members: [ app_mailer_console ]
+
+    application_import_template_console:
       type: stream
-      path: "%kernel.logs_dir%/application_import_template.log"
+      path: "php://stdout"
       level: debug
       channels: [ "application_import_template" ]
-    application_import_local:
+
+    application_import_console:
       type: stream
-      path: "%kernel.logs_dir%/application_import.log"
+      path: "php://stdout"
       level: debug
       channels: [ "application_import" ]
-    application_export_local:
+
+    application_export_console:
       type: stream
-      path: "%kernel.logs_dir%/application_export.log"
+      path: "php://stdout"
       level: debug
       channels: [ "application_export" ]
-    application_communication_nsia_local:
-      type: rotating_file
-      path: "%kernel.logs_dir%/application_communication_nsia.log"
-      level: info
-      max_files: 10
-      channels: [ "application_communication_nsia" ]
-    app_mailer_local:
+
+    application_communication_nsia_console:
       type: stream
-      path: "%kernel.logs_dir%/mailer.log"
+      path: "php://stdout"
+      level: info
+      channels: [ "application_communication_nsia" ]
+
+    app_mailer_console:
+      type: stream
+      path: "php://stdout"
       level: debug
       channels: [ "app_mailer" ]
-    # cloudWatch:
-    #   type: service
-    #   id: cloudwatch_handler

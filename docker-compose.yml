@@ -31,7 +31,9 @@ services:
     networks:
       - my_custom_network
   php:
-    image: wodby/php:${PHP_TAG}
+    build: 
+      context: .
+      dockerfile: Dockerfile.be 
     container_name: "${PROJECT_NAME}_php"
     environment:
       #PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
@@ -47,12 +49,17 @@ services:
       PHP_XDEBUG_MODE: debug
       PHP_IDE_CONFIG: serverName=${PROJECT_BASE_URL}
       PHP_XDEBUG_CLIENT_HOST: host.docker.internal
-    volumes:
-      - ./:/var/www/html:delegated
+      PHP_OPCACHE_ENABLE: 0
+      #volumes:
+      #  - cache_php:/var/www/html/var
+
     networks:
       - my_custom_network
   nginx:
-    image: wodby/nginx:${NGINX_TAG}
+    #image: wodby/nginx:${NGINX_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile.fe
     container_name: "${PROJECT_NAME}_nginx"
     depends_on:
       - php
@@ -62,10 +69,14 @@ services:
       NGINX_BACKEND_HOST: php
       NGINX_VHOST_PRESET: php
       NGINX_SERVER_ROOT: /var/www/html/public
+      #PHP_OPCACHE_ENABLE: 0
+
     ports:
       - "${NGINX_CONTAINER_EXPOSED_PORT:-8000}:80"
-    volumes:
-      - ./:/var/www/html:delegated
+    #volumes:
+    #  - ./:/var/www/html:delegated
+    #volumes:
+    #  - cache_nginx:/var/www/html/var
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
@@ -130,6 +141,8 @@ volumes:
   pg_data: {}
   db_data_1: {}
   minio: {}
+  #cache_php: {}
+  #cache_nginx: {}
 
 networks:
   my_custom_network:
