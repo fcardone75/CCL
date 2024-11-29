@@ -9,14 +9,17 @@ use Symfony\Component\Mime\Email;
 
 class GpecMailer implements EmailInterface
 {
+    private GpecService $gpecService;
 
-    public function __construct(private readonly GpecService $gpecService)
+    public function __construct()
     {
+
     }
 
     public function send(Email $email, ?Envelope $envelope = null): void
     {
-        // Itera tutti i destinatari e invia la mail
+        $gpecEnvPath = $_ENV['GPEC_ENV_UP_FOLDER']; // Ideally fetch from parameters or env
+        $this->gpecService = new GpecService($gpecEnvPath);
         foreach ($email->getTo() as $to) {
             $this->gpecService->sendMail($to->getAddress(), $email->getSubject(), $email->getHtmlBody());
         }
