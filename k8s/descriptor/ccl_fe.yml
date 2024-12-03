@@ -1,0 +1,74 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ccl-fe
+  namespace: artigiancassa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ccl-fe
+  template:
+    metadata:
+      labels:
+        app: ccl-fe
+    spec:
+
+      containers:
+      - name: ccl-fe
+        image: io.iad2.cloud/artigiancassa/ccl-fe:0.0.6
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "200m"
+          limits:
+            memory: "256Mi"
+            cpu: "40"  
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: ccl-fe-config
+        volumeMounts:
+        - mountPath: /var/www/html/var
+          name: temp-volume-fe
+      volumes:
+      - name: temp-volume-fe
+        emptyDir:
+          medium: Memory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ccl-fe
+  namespace: artigiancassa
+spec:
+  selector:
+    app: ccl-fe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP         
+---
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: ccl-fe-config
+     namespace: artigiancassa
+   data:
+      PHP_FPM_CLEAR_ENV: "no"
+      NGINX_STATIC_OPEN_FILE_CACHE: "off"
+      NGINX_ERROR_LOG_LEVEL: debug
+      NGINX_VHOST_PRESET: php
+      NGINX_SERVER_ROOT: /var/www/html/public
+      NGINX_BACKEND_HOST: ccl-be.artigiancassa.svc.cluster.local
+      APP_ENV: PRODCall to a member function getI18n() on null
+      APP_DEBUG: "0"
+      PROJECT_BASE_URL: ccl.appdev
+      PROJECT_NAME: ccl
+      PHP_IDE_CONFIG: serverName=ccl.appdev
+
+    
