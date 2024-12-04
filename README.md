@@ -27,3 +27,8 @@ Per testare il funzionamento manualmente (da browser), settare la env `MFA_ENABL
 Per testare il funzionamento con `phpunit`, settare la env `MFA_ENABLED` a `true` o `false`, lanciare `vendor/bin/phpunit` e aspettarsi che il test passi in ogni caso.
 
 ## Testing
+
+
+ php bun/console doctrine:schema:update --force
+ php bun/console assets:install
+

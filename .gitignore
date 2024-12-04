@@ -26,3 +26,7 @@ docker-compose.override.yml
 mysql-init
 .env
 auth.json
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
