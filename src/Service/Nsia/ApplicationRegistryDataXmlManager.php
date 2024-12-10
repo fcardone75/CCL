@@ -65,16 +65,15 @@ class ApplicationRegistryDataXmlManager
 // https://github.com/pravednik/xmlBundle
 
 // init xml
-		$xmlns_xsi = 'http//www.w3.org/2001/XMLSchema-instance';
-		$xmlns_xsd = 'http//www.w3.org/2001/XMLSchema';
-		$xmlns = 'http://farelazio.it/xsd';
+        $xmlns_xsi = 'http//www.w3.org/2001/XMLSchema-instance';
+        $xmlns_xsd = 'http//www.w3.org/2001/XMLSchema';
+        $xmlns = 'http://farelazio.it/xsd';
 
-		$tipoFlusso = 'LIGDO';
-//		$tipoFlusso = RegistryFileAudit::TYPE_LIGDO;
-		$progressivo = $newProgressiveNumber;
-		$dataCreazione = $this->checkFieldDate(new DateTime());
+        $tipoFlusso = 'LIGDO';
+        $progressivo = $newProgressiveNumber;
+        $dataCreazione = $this->checkFieldDate(new DateTime());
 
-		$flusso = 'Flusso'.$tipoFlusso;
+        $flusso = 'Flusso'.$tipoFlusso;
 
         $rootElamentName = $flusso;
         $rootAttributes = [
@@ -120,7 +119,8 @@ class ApplicationRegistryDataXmlManager
             ['formatOutput' => true]
         );
 
-		fputs ($fileXmlSource, $data);
+        file_put_contents($fileXmlSource, $data);
+//		fputs ($fileXmlSource, $data);
     }
 
 
