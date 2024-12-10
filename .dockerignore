@@ -7,3 +7,9 @@ tests
 seed
 env.example
 .gitingore
+.sql
+k8s
+.github
+.github
+.seed
+multi.sh  
