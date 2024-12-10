@@ -30,3 +30,4 @@ auth.json
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+.sql
