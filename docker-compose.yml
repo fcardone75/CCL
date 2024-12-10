@@ -31,9 +31,7 @@ services:
     networks:
       - my_custom_network
   php:
-    build: 
-      context: .
-      dockerfile: Dockerfile.be 
+    image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-php:v2
     container_name: "${PROJECT_NAME}_php"
     environment:
       #PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
@@ -56,10 +54,7 @@ services:
     networks:
       - my_custom_network
   nginx:
-    #image: wodby/nginx:${NGINX_TAG}
-    build:
-      context: .
-      dockerfile: Dockerfile.fe
+    image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-nginx:v2
     container_name: "${PROJECT_NAME}_nginx"
     depends_on:
       - php

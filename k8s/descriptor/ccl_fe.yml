@@ -18,7 +18,7 @@ spec:
 
       containers:
       - name: ccl-fe
-        image: sdg-registry.dev.echonet/agevolarti/liguria-gal-nginx:v2
+        image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-nginx:v2
         resources:
           requests:
             memory: "128Mi"

@@ -18,7 +18,7 @@ spec:
 
       containers:
       - name: ccl-be
-        image: sdg-registry.dev.echonet/agevolarti/liguria-gal-php:v2
+        image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-php:v2
 
         
         resources:
