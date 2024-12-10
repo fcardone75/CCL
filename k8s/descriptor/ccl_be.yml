@@ -18,7 +18,8 @@ spec:
 
       containers:
       - name: ccl-be
-        image: io.iad2.cloud/artigiancassa/ccl-be:0.0.39
+        image: sdg-registry.dev.echonet/agevolarti/liguria-gal-php:v2
+
         
         resources:
           requests:
