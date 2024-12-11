@@ -74,10 +74,10 @@ services:
       NGINX_VHOST_PRESET: php
       NGINX_SERVER_ROOT: /var/www/html/public
     ports:
-      - "${NGINX_CONTAINER_EXPOSED_PORT:-8000}:80"
+      - "${NGINX_CONTAINER_EXPOSED_PORT:-8000}:8080"
     volumes:
       - .:/var/www/html
-      - ./tempo://etc/nginx
+      - ./tempo:/etc/nginx
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"

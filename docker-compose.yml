@@ -57,7 +57,7 @@ services:
     networks:
       - my_custom_network
   nginx:
-    image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-nginx:v7
+    image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-nginx:v8
     build:
       context: .
       dockerfile: Dockerfile.fe

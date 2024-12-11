@@ -67,7 +67,7 @@ process_templates() {
         fi
     fi
 
-    _gotpl "50x.html.tmpl" "/usr/share/nginx/html/50x.html"
+    # _gotpl "50x.html.tmpl" "/usr/share/nginx/html/50x.html"
 }
 
 init_volumes
