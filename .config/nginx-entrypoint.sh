@@ -35,13 +35,17 @@ _backwards_compatibility() {
 
 process_templates() {
     _backwards_compatibility
+    cp -r /etc/nginx-orig/* /etc/nginx
+    mkdir -p /etc/nginx/modsecurity/
+    mkdir -p /etc/nginx/conf.d/
 
-    _gotpl "nginx.conf.tmpl" "/etc/nginx/nginx.conf"
+     _gotpl "nginx.conf.tmpl" "/etc/nginx/nginx.conf"
     _gotpl "vhost.conf.tmpl" "/etc/nginx/conf.d/vhost.conf"
     _gotpl "includes/defaults.conf.tmpl" "/etc/nginx/defaults.conf"
     _gotpl "includes/fastcgi.conf.tmpl" "/etc/nginx/fastcgi.conf"
 
     if [[ -n "${NGINX_MODSECURITY_ENABLED}" ]]; then
+        mkdir -p /etc/nginx/modsecurity/
         _gotpl "includes/modsecurity.conf.tmpl" "/etc/nginx/modsecurity/main.conf"
     fi
 
