@@ -3,9 +3,9 @@ USER root
 
 COPY .config/nginx-entrypoint.sh /nginx-entrypoint.sh
 RUN chmod +x /nginx-entrypoint.sh   
-RUN chown -R nginx:nginx /var/cache/nginx /usr/share/nginx/ /var/run/nginx /nginx-entrypoint.sh /etc/nginx/
+RUN chown -R wodby:wodby /var/cache/nginx /usr/share/nginx/ /var/run/nginx /nginx-entrypoint.sh /etc/nginx/
 
-USER nginx
+USER wodby
 #ENTRYPOINT ["/nginx-entrypoint.sh"]
 ENTRYPOINT ["/bin/bash", "/nginx-entrypoint.sh"]
 CMD ["nginx"]
