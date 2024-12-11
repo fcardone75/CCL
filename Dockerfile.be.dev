@@ -3,3 +3,4 @@ FROM wodby/php:8.2
 #RUN composer install
 
 EXPOSE  9000
+CMD ["php-fpm"]

@@ -33,8 +33,9 @@ services:
   php:
     build:
       context: .
-      dockerfile: Dockerfile.be.dev
+      dockerfile: Dockerfile.be
     container_name: "${PROJECT_NAME}_php"
+    #command: ["php-fpm"]
     environment:
       PHP_SMTP: mailhog
       PHP_SMTP_PORT: 1025

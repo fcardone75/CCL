@@ -31,7 +31,7 @@ services:
     networks:
       - my_custom_network
   php:
-    image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-php:v7
+    image: sdg-registry.dev.echonet/agevolarti/liguria-ccl-php:v8
     build: 
       context: .
       dockerfile: Dockerfile.be 

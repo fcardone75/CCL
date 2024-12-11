@@ -21,8 +21,7 @@ RUN sed -i 's|/var/run/php-fpm.pid|/var/run/php-fpm/php-fpm.pid|g' /usr/local/et
 RUN sed -i 's|user = www-data|user = wodby|g' /usr/local/etc/php-fpm.d/www.conf.default && \
     sed -i 's|group = www-data|group = wodby|g' /usr/local/etc/php-fpm.d/www.conf.default 
 
-ENTRYPOINT []
-CMD ["php-fpm", "-F"]
 USER wodby
+ENTRYPOINT ["php-fpm"]
 
 EXPOSE  9000
