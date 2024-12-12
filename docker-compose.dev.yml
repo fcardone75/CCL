@@ -33,7 +33,7 @@ services:
   php:
     build:
       context: .
-      dockerfile: Dockerfile.be
+      dockerfile: Dockerfile.be.dev
     container_name: "${PROJECT_NAME}_php"
     #command: ["php-fpm"]
     environment:
@@ -78,7 +78,7 @@ services:
       - "${NGINX_CONTAINER_EXPOSED_PORT:-8000}:8080"
     volumes:
       - .:/var/www/html
-      - ./tempo:/etc/nginx
+      #- ./tempo:/etc/nginx
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
