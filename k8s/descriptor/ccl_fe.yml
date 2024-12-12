@@ -65,7 +65,7 @@ spec:
       NGINX_VHOST_PRESET: php
       NGINX_SERVER_ROOT: /var/www/html/public
       NGINX_BACKEND_HOST: ccl-be.artigiancassa.svc.cluster.local
-      APP_ENV: PRODCall to a member function getI18n() on null
+      APP_ENV: PROD    
       APP_DEBUG: "0"
       PROJECT_BASE_URL: ccl.appdev
       PROJECT_NAME: ccl
